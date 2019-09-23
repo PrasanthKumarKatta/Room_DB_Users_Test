@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/card_radius">
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/card_radius">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/card_radius"
+            android:orientation="vertical"
+            android:padding="@dimen/card_radius"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/card_radius"
+                android:layout_weight="1"
+                android:text="Mobile No.1 "
+                android:textColor="#000"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_mobieNo1_communication_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/card_radius"
+                android:layout_weight="1"
+                android:background="@drawable/et_back_shape"
+                android:hint="@string/enter_mobile_number_1"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:padding="5dp"
+                android:textColor="#000000"
+                android:textColorHint="#86000000"
+                android:textSize="@dimen/text_size"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Mobile No.2  "
+                android:textColor="#000"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/card_radius"
+                />
+
+            <EditText
+                android:id="@+id/et_mobieNo2_communication_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/et_back_shape"
+                android:hint="@string/enter_mobile_number_2"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:padding="5dp"
+                android:textColor="#000000"
+                android:textColorHint="#86000000"
+                android:textSize="@dimen/text_size"
+                android:layout_marginBottom="@dimen/card_radius"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/card_radius"
+                android:layout_weight="1"
+                android:text="Email Id "
+                android:textColor="#000"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_emailId_communication_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/et_back_shape"
+                android:hint="@string/enter_email_id"
+                android:inputType="textEmailAddress"
+                android:maxLength="20"
+                android:padding="5dp"
+                android:textColor="#000"
+                android:textColorHint="#86000000"
+                android:textSize="@dimen/text_size" />
+
+            <Button
+                android:id="@+id/save_btn_communication_fragment"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:onClick="save"
+                android:text="@string/save"
+                android:textColor="#FFFFFF"
+                android:textSize="@dimen/text_size"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</ScrollView>

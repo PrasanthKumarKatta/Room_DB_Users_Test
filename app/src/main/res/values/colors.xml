@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="tab_selected_color">#FFFFFF</color>
+    <color name="tab_not_selected_color">#97DDDCDC</color>
+    <color name="orange_buttom">#FFA300</color>
+</resources>
