@@ -45,4 +45,14 @@ public class PersonViewModel extends AndroidViewModel
     public void delete(PersonEntity personEntity){
         mPersonRepository.delete(personEntity);
     }
+
+    public void deleteItemById(long idItem){
+        mPersonRepository.deleteItemById(idItem);
+    }
+
+    public void update(PersonEntity personEntity)
+    {
+        mPersonRepository.updateByItemId(personEntity);
+
+    }
 }

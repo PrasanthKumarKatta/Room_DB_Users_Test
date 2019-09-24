@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.xaroinc.primor_users_test.R;
-import com.xaroinc.primor_users_test.View_UI.Adapters.UsersListAapter;
 import com.xaroinc.primor_users_test.View_UI.Database.PersonEntity;
 import com.xaroinc.primor_users_test.View_UI.Database.PersonViewModel;
 import com.xaroinc.primor_users_test.View_UI.Fragments.Nav_fragments.UsersListFragment;
@@ -33,7 +32,7 @@ import java.util.regex.Pattern;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CommunicationFragment extends Fragment {
+public class Edit_CommunicationFragment extends Fragment {
 
     EditText et_mobileNo1, et_mobileNo2, et_emaiId;
     Button savebtn;
@@ -65,20 +64,18 @@ public class CommunicationFragment extends Fragment {
 
     private String fName_sp,lName_sp,dateOfBirth_sp,gender_sp,fullAddress_sp,pincode_sp,city_sp,state_sp,mobileNo1_sp,mobileNo2_sp,emailId_sp;
 
-
-
-    public CommunicationFragment() {
+    public Edit_CommunicationFragment() {
         // Required empty public constructor
     }
 
     @SuppressLint("ValidFragment")
-    public CommunicationFragment(ArrayList<PersonEntity> personEntityArrayList) {
+    public Edit_CommunicationFragment(ArrayList<PersonEntity> personEntityArrayList) {
         this.personEntityArrayList = personEntityArrayList;
     }
 
 
     @SuppressLint("ValidFragment")
-    public CommunicationFragment(String firstName, String lastName, String dateOfBirth, String gender, String address, String pincode, String city, String state)
+    public Edit_CommunicationFragment(String firstName, String lastName, String dateOfBirth, String gender, String address, String pincode, String city, String state)
     {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -109,6 +106,8 @@ public class CommunicationFragment extends Fragment {
         et_mobileNo2 = view.findViewById(R.id.et_mobieNo2_communication_fragment);
         et_emaiId = view.findViewById(R.id.et_emailId_communication_fragment);
         savebtn = view.findViewById(R.id.save_btn_communication_fragment);
+
+        savebtn.setText(getResources().getString(R.string.update_btn));
 
         et_mobileNo1.setFocusable(true);
 
@@ -154,11 +153,11 @@ public class CommunicationFragment extends Fragment {
                     }else if (mobileNo2.length() <10){
                         et_mobileNo2.setError(getResources().getString(R.string.mobileNo_length_error_msg));
                     }else {
-                       // String data = mobileNo1 + "\n" + mobileNo2 + "\n" + emailId ;
-                      //  Toast.makeText(getActivity(), data + "\n" + "Communication Data Stored Successfully", Toast.LENGTH_SHORT).show();
+                        String data = mobileNo1 + "\n" + mobileNo2 + "\n" + emailId ;
+                        //  Toast.makeText(getActivity(), data + "\n" + "Communication Data Stored Successfully", Toast.LENGTH_SHORT).show();
 
-                     //Todo: hide for list based checking
-                   // viewModel.insert(setValuesToEntity());
+                            //Todo: hide for list based checking
+                        // viewModel.insert(setValuesToEntity());
 
                         saveDataIntoSp(mobileNo1,mobileNo2,emailId);
                     }
@@ -190,13 +189,12 @@ public class CommunicationFragment extends Fragment {
 
             Log.d("db", "Communication fragment: bundle data: \n" + bundleData);
 
-          //  Toast.makeText(getActivity(), bundleData + " \n Bundle Data in Communication Fragment", Toast.LENGTH_SHORT).show();
+            //  Toast.makeText(getActivity(), bundleData + " \n Bundle Data in Communication Fragment", Toast.LENGTH_SHORT).show();
 
-          /*
+            /*
             if (!firstName_bundle.equals(null)){
                 Toast.makeText(getActivity(), "first Name: " +firstName_bundle, Toast.LENGTH_SHORT).show();
-            }
-          */
+            }*/
 
 
             if (mobileNo1_bundle.length() != 0 && mobileNo2_bundle.length() != 0 && emailId_bundle.length() !=0){
@@ -266,19 +264,20 @@ public class CommunicationFragment extends Fragment {
         String sp_data = fName_sp + "\n" + lName_sp + "\n" + dateOfBirth_sp + "\n" +
                 gender_sp + "\n" +fullAddress_sp + "\n" + pincode_sp + "\n" + city_sp + "\n" + state_sp + "\n"+
                 mobileNo1_sp + "\n" + mobileNo2_sp + "\n" + emailId_sp + "\n";
-      //  Toast.makeText(getActivity(), sp_data + "Communication Data Saved in SP", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), sp_data + "Communication Data Saved in SP", Toast.LENGTH_SHORT).show();
 
 
         //checkRowId_in_RoomDb();
 
-        viewModel.insert(setValuesToEntity(fName_sp,lName_sp,dateOfBirth_sp,gender_sp,fullAddress_sp,
-                pincode_sp,city_sp,state_sp,mobileNo1_sp,mobileNo2_sp,emailId_sp));
-
-
-        /*viewModel.update(setValuesToEntity1(id_bunndle,fName_sp,lName_sp,dateOfBirth_sp,gender_sp,fullAddress_sp,
+       /* viewModel.insert(setValuesToEntity(fName_sp,lName_sp,dateOfBirth_sp,gender_sp,fullAddress_sp,
                 pincode_sp,city_sp,state_sp,mobileNo1_sp,mobileNo2_sp,emailId_sp));
         */
-        //checkData_to_Inser_Update();
+
+
+        viewModel.update(setValuesToEntity1(id_bunndle,fName_sp,lName_sp,dateOfBirth_sp,gender_sp,fullAddress_sp,
+                pincode_sp,city_sp,state_sp,mobileNo1_sp,mobileNo2_sp,emailId_sp));
+
+        checkData_to_Inser_Update();
 
         Toast.makeText(getActivity(), "Full profile data saved in Room DB", Toast.LENGTH_SHORT).show();
 
@@ -360,7 +359,7 @@ public class CommunicationFragment extends Fragment {
             personEntity.setCity(city);
             personEntity.setState(state);
             //personEntity.setMobileNo1(Integer.parseInt(mobileNo1));
-          //  personEntity.setMobileNo2(Integer.parseInt(mobileNo2));
+            //  personEntity.setMobileNo2(Integer.parseInt(mobileNo2));
             personEntity.setEmailId(emailId);
 
             viewModel.insert(personEntity);
@@ -371,9 +370,9 @@ public class CommunicationFragment extends Fragment {
     }
 
     private PersonEntity setValuesToEntity1(Long id_bundlw,String fName_sp, String lName_sp, String dateOfBirth_sp,
-                                           String gender_sp, String fullAddress_sp, String pincode_sp,
-                                           String city_sp, String state_sp, String mobileNo1_k,
-                                           String mobileNo2_k, String emailId_k)
+                                            String gender_sp, String fullAddress_sp, String pincode_sp,
+                                            String city_sp, String state_sp, String mobileNo1_k,
+                                            String mobileNo2_k, String emailId_k)
     {
         PersonEntity personEntity = new PersonEntity();
         personEntity.setId(id_bunndle);

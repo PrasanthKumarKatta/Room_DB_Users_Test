@@ -3,10 +3,12 @@ package com.xaroinc.primor_users_test;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -31,6 +33,22 @@ public class MainActivity extends AppCompatActivity
     SharedPreferences sp;
     private static final String spFile = "spFile_contacts" ;
     SharedPreferences.Editor editor;
+
+
+    private static final String dbIdKey = "dbIdKey";
+    private static final String fNameKey = "fNameKey";
+    private static final String lNameKey = "lNameKey";
+    private static final String dateOfBirthKey = "dateOfBirthKey";
+    private static final String genderKey = "genderKey";
+    private static final String fullAddressKey = "fullAddressKey";
+    private static final String pincodeKey = "pincodeKey";
+    private static final String cityKey = "cityKey";
+    private static final String stateKey = "stateKey";
+    private static final String mobileNo1Key = "mobileNo1Key";
+    private static final String mobileNo2Key = "mobileNo2Key";
+    private static final String emailIdKey = "emailIdKey";
+
+    Bundle bundle = new Bundle();
 
 
     @Override
@@ -61,7 +79,7 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            callExitApp();
+            callExitApp1();
         }
     }
 
@@ -107,22 +125,45 @@ public class MainActivity extends AppCompatActivity
         switch (id){
             case R.id.nav_user_list:
                 fragment = new UsersListFragment();
+
+                setTitle(getResources().getString(R.string.profile_list));
+
+                FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
+                ft1.replace(R.id.content_frame, fragment);
+                ft1.addToBackStack(null);
+                ft1.commit();
                 break;
             case R.id.nav_newUser:
                 fragment = new NewUserFragment();
+
+                setTitle(getResources().getString(R.string.user_profile));
+
+                parseDummyBundleData();
+
+                fragment.setArguments(bundle);
+
+                FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
+                ft2.replace(R.id.content_frame, fragment);
+                ft2.addToBackStack(null);
+                ft2.commit();
                 break;
             case R.id.nav_exit:
                 callExitApp();
                 break;
         }
 
-        if (fragment != null){
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.content_frame, fragment);
-            ft.addToBackStack(null);
-            ft.commit();
-        }
+       /*
+            if (fragment != null){
 
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_frame, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
+
+              //Remove all the previous fragments in back stack
+             // getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+      */
     }
 
     private void callExitApp()
@@ -143,11 +184,36 @@ public class MainActivity extends AppCompatActivity
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
 
-                Toast.makeText(MainActivity.this, R.string.delete_cancel_message, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(MainActivity.this, R.string.delete_cancel_message, Toast.LENGTH_SHORT).show();
             }
         });
         builder.show();
     }
+
+    private void callExitApp1()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.alert_title);
+        builder.setMessage(R.string.alert_exit_mesage);
+        builder.setIcon(R.drawable.logout);
+       /* builder.setPositiveButton(R.string.alert_yes_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+                Toast.makeText(MainActivity.this, R.string.logout_success_msg, Toast.LENGTH_SHORT).show();
+            }
+        });*/
+        builder.setNegativeButton(R.string.alert_no_btn, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
+                // Toast.makeText(MainActivity.this, R.string.delete_cancel_message, Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.show();
+    }
+
 
     /*@Override
     protected void onStop() {
@@ -164,4 +230,22 @@ public class MainActivity extends AppCompatActivity
        // Toast.makeText(this, "Data Cleared in SP", Toast.LENGTH_SHORT).show();
         super.onDestroy();
     }*/
+
+
+    private void parseDummyBundleData()
+    {
+        bundle.putLong(dbIdKey,0);
+        bundle.putString(fNameKey, "");
+        bundle.putString(lNameKey, "");
+        bundle.putString(dateOfBirthKey, "");
+        bundle.putString(genderKey, "");
+        bundle.putString(fullAddressKey, "");
+        bundle.putString(pincodeKey, "");
+        bundle.putString(cityKey, "");
+        bundle.putString(stateKey, "");
+        bundle.putString(mobileNo1Key, "");
+        bundle.putString(mobileNo2Key, "");
+        bundle.putString(emailIdKey,"");
+
+    }
 }

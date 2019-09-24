@@ -3,11 +3,13 @@ package com.xaroinc.primor_users_test.View_UI.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +17,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xaroinc.primor_users_test.MainActivity;
 import com.xaroinc.primor_users_test.R;
 import com.xaroinc.primor_users_test.View_UI.Database.PersonEntity;
 import com.xaroinc.primor_users_test.View_UI.Database.PersonViewModel;
-import com.xaroinc.primor_users_test.View_UI.PersonEditActivity;
+import com.xaroinc.primor_users_test.View_UI.Fragments.Nav_fragments.EditUserFragment;
 
 import java.util.List;
 
@@ -45,6 +48,7 @@ public class UsersListAapter extends RecyclerView.Adapter<UsersListAapter.UserIn
     private static final String mobileNo1Key = "mobileNo1Key";
     private static final String mobileNo2Key = "mobileNo2Key";
     private static final String emailIdKey = "emailIdKey";
+    private long id_bundle;
 
     public UsersListAapter(Context context, List<PersonEntity> personEntityList) {
         this.context = context;
@@ -64,33 +68,47 @@ public class UsersListAapter extends RecyclerView.Adapter<UsersListAapter.UserIn
         userInfo.user_Id.setText(personEntityList.get(i).getId() + ".");
         userInfo.user_firstName.setText(personEntityList.get(i).getFirstName() + " " + personEntityList.get(i).getLastName() /*+ "\n" + personEntityList.get(i).getEmailId()*/);
 
+        getdataToParse(i);
+
+        if (gender.equals("female")){
+            userInfo.user_edit_img.setBackground(null);
+            userInfo.user_edit_img.setBackground(context.getResources().getDrawable(R.drawable.user_profile_female_edit));
+        }else if (gender.equals("male")){
+            userInfo.user_edit_img.setBackground(null);
+            userInfo.user_edit_img.setBackground(context.getResources().getDrawable(R.drawable.user_profile_edit));
+        }
+
         userInfo.user_edit_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, "clicked on " + personEntityList.get(i).getFirstName(), Toast.LENGTH_SHORT).show();
 
-                Bundle bundle = new Bundle();
-                bundle.putInt(dbIdKey,personEntityList.get(i).getId());
-                bundle.putString(fNameKey, personEntityList.get(i).getFirstName());
-                bundle.putString(lNameKey, personEntityList.get(i).getLastName());
-                bundle.putString(dateOfBirthKey, personEntityList.get(i).getDateOfBirth());
-                bundle.putString(genderKey, personEntityList.get(i).getGender());
-                bundle.putString(fullAddressKey, personEntityList.get(i).getAddress());
-                bundle.putString(pincodeKey, personEntityList.get(i).getPincode());
-                bundle.putString(cityKey, personEntityList.get(i).getCity());
-                bundle.putString(stateKey, personEntityList.get(i).getState());
-                bundle.putString(mobileNo1Key, personEntityList.get(i).getMobileNo1());
-                bundle.putString(mobileNo2Key, personEntityList.get(i).getMobileNo2());
-                bundle.putString(emailIdKey, personEntityList.get(i).getEmailId());
+               getdataToParse(i);
 
-                Intent i = new Intent(context, PersonEditActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putLong(dbIdKey,id_bundle);
+                bundle.putString(fNameKey, firstName);
+                bundle.putString(lNameKey, lastName);
+                bundle.putString(dateOfBirthKey, dateOfBirth);
+                bundle.putString(genderKey, gender);
+                bundle.putString(fullAddressKey, address);
+                bundle.putString(pincodeKey, pincode);
+                bundle.putString(cityKey, city);
+                bundle.putString(stateKey, state);
+                bundle.putString(mobileNo1Key, mobileNo1);
+                bundle.putString(mobileNo2Key, mobileNo2);
+                bundle.putString(emailIdKey,emailId);
+
+              /*  Intent i = new Intent(context, PersonEditActivity.class);
                 i.putExtras(bundle);
                 context.startActivity(i);
+                */
 
                 //Todo: working for fragments
-                /*
                 Fragment fragment = null;
-                fragment= new NewUserFragment(personEntityList);
+                //fragment= new NewUserFragment();
+
+                fragment= new EditUserFragment();
 
                 if (fragment != null) {
 
@@ -101,20 +119,7 @@ public class UsersListAapter extends RecyclerView.Adapter<UsersListAapter.UserIn
                             personEntityList.get(i).getMobileNo1() + "\n" +personEntityList.get(i).getMobileNo2() + "\n"+
                             personEntityList.get(i).getEmailId() + "\n";
                    // Toast.makeText(context, data +"", Toast.LENGTH_SHORT).show();
-
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(dbIdKey,personEntityList.get(i).getId());
-                    bundle.putString(fNameKey, personEntityList.get(i).getFirstName());
-                    bundle.putString(lNameKey, personEntityList.get(i).getLastName());
-                    bundle.putString(dateOfBirthKey, personEntityList.get(i).getDateOfBirth());
-                    bundle.putString(genderKey, personEntityList.get(i).getGender());
-                    bundle.putString(fullAddressKey, personEntityList.get(i).getAddress());
-                    bundle.putString(pincodeKey, personEntityList.get(i).getPincode());
-                    bundle.putString(cityKey, personEntityList.get(i).getCity());
-                    bundle.putString(stateKey, personEntityList.get(i).getState());
-                    bundle.putString(mobileNo1Key, personEntityList.get(i).getMobileNo1());
-                    bundle.putString(mobileNo2Key, personEntityList.get(i).getMobileNo2());
-                    bundle.putString(emailIdKey, personEntityList.get(i).getEmailId());
+                    Log.d("db","adapter: bundle Data\n" +data);
 
                     fragment.setArguments(bundle);
 
@@ -123,7 +128,7 @@ public class UsersListAapter extends RecyclerView.Adapter<UsersListAapter.UserIn
                     ft.addToBackStack(null);
                     ft.commit();
 
-                }*/
+                }
 
             }
         });
@@ -131,28 +136,49 @@ public class UsersListAapter extends RecyclerView.Adapter<UsersListAapter.UserIn
         userInfo.user_firstName.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                int id = personEntityList.get(i).getId();
+                long id = personEntityList.get(i).getId();
 
                 Toast.makeText(context, "you clicked on " + i + "\n" + "id: " + id, Toast.LENGTH_SHORT).show();
-                callDeleteDialog(id);
+                callDeleteDialog(i,id);
                 return false;
             }
         });
 
     }
 
-    private void callDeleteDialog(int j) {
+    private void getdataToParse(int i)
+    {
+        id_bundle = personEntityList.get(i).getId();
+        firstName = personEntityList.get(i).getFirstName();
+        lastName = personEntityList.get(i).getLastName();
+        dateOfBirth = personEntityList.get(i).getDateOfBirth();
+        gender = personEntityList.get(i).getGender();
+        address = personEntityList.get(i).getAddress();
+        pincode = personEntityList.get(i).getPincode();
+        city = personEntityList.get(i).getCity();
+        state = personEntityList.get(i).getState();
+        mobileNo1 = personEntityList.get(i).getMobileNo1();
+        mobileNo2 = personEntityList.get(i).getMobileNo2();
+        emailId = personEntityList.get(i).getEmailId();
+    }
+
+    private void callDeleteDialog(final int pos, final long itemId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.delete_alert_title);
         builder.setMessage(R.string.delete_alert_mesage);
         builder.setIcon(R.drawable.ic_delete_red_24dp);
         builder.setPositiveButton(R.string.alert_yes_btn, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int j) {
+            public void onClick(DialogInterface dialog, int which) {
 
-                deletePerson(j);
+               // Toast.makeText(context, "id: " + itemId , Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(context, R.string.delete_success_msg, Toast.LENGTH_SHORT).show();
+                getdataToParse(pos);
+
+              //  viewModel.delete(setValuesToEntity());
+
+              //  Toast.makeText(context, R.string.delete_success_msg, Toast.LENGTH_SHORT).show();
+
             }
         });
         builder.setNegativeButton(R.string.alert_no_btn, new DialogInterface.OnClickListener() {
@@ -166,50 +192,21 @@ public class UsersListAapter extends RecyclerView.Adapter<UsersListAapter.UserIn
 
     }
 
-
-    private void deletePerson(int j) {
-
-        List<PersonEntity> personEntityList = viewModel.getPersonEntityList();
-        for (int k = 0; k < personEntityList.size(); k++) {
-            if (personEntityList.get(k).getId() == j) {
-                Toast.makeText(context, "Id deleted", Toast.LENGTH_SHORT).show();
-                // viewModel.update(setValuesToEntity());
-
-                firstName = personEntityList.get(k).getFirstName();
-                lastName = personEntityList.get(k).getLastName();
-                dateOfBirth = personEntityList.get(k).getDateOfBirth();
-                gender = personEntityList.get(k).getGender();
-                address = personEntityList.get(k).getAddress();
-                pincode = personEntityList.get(k).getPincode();
-                city = personEntityList.get(k).getCity();
-                state = personEntityList.get(k).getState();
-                mobileNo1 = String.valueOf(personEntityList.get(k).getMobileNo1());
-                mobileNo2 = String.valueOf(personEntityList.get(k).getMobileNo2());
-                emailId = personEntityList.get(k).getEmailId();
-
-                viewModel.delete(setValuesToEntity(j));
-            } else {
-                Toast.makeText(context, "Id not exists", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-    }
-
-    private PersonEntity setValuesToEntity(int j) {
+    private PersonEntity setValuesToEntity() {
         PersonEntity personEntity = new PersonEntity();
-        personEntity.setId(j);
+        personEntity.setId(id_bundle);
         personEntity.setFirstName(firstName);
         personEntity.setLastName(lastName);
-        /*personEntity.setDateOfBirth(dateOfBirth);
+        personEntity.setDateOfBirth(dateOfBirth);
         personEntity.setGender(gender);
         personEntity.setAddress(address);
         personEntity.setPincode(pincode);
         personEntity.setCity(city);
         personEntity.setState(state);
-        personEntity.setMobileNo1(Integer.parseInt(mobileNo1));
-        personEntity.setMobileNo2(Integer.parseInt(mobileNo2));
+        personEntity.setMobileNo1(mobileNo1);
+        personEntity.setMobileNo2(mobileNo2);
         personEntity.setEmailId(emailId);
-        */
+
         return personEntity;
     }
 

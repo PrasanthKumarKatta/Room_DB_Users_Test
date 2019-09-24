@@ -97,6 +97,7 @@ public class UsersListFragment extends Fragment {
             public void onRefresh() {
 
                 initViews(view);
+                Toast.makeText(getActivity(), getResources().getString(R.string.sync_success_refresh_msg), Toast.LENGTH_SHORT).show();
 
                 if (swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
@@ -111,13 +112,15 @@ public class UsersListFragment extends Fragment {
         Fragment fragment = null;
         fragment = new NewUserFragment();
 
-        //parseDummyBundleData();
+        parseDummyBundleData();
 
-        fragment.setArguments(bundle);
+         fragment.setArguments(bundle);
 
         if (fragment != null){
             FragmentTransaction ft = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+            //ft.detach(fragment);
             ft.replace(R.id.content_frame, fragment);
+          //  ft.attach(fragment);
             ft.addToBackStack(null);
             ft.commit();
         }
@@ -128,18 +131,18 @@ public class UsersListFragment extends Fragment {
 
     private void parseDummyBundleData()
     {
-        bundle.putInt(dbIdKey,1);
-        bundle.putString(fNameKey, "Prasanth");
-        bundle.putString(lNameKey, "Kumar");
-        bundle.putString(dateOfBirthKey, "20/03/1994");
-        bundle.putString(genderKey, "male");
-        bundle.putString(fullAddressKey, "Madanapalli");
-        bundle.putString(pincodeKey, "517365");
-        bundle.putString(cityKey, "Tirupathi");
-        bundle.putString(stateKey, "Andhra Pradesh");
-        bundle.putString(mobileNo1Key, "9876543210");
-        bundle.putString(mobileNo2Key, "9196959298");
-        bundle.putString(emailIdKey,"kpcode4u@gmail.com");
+        bundle.putLong(dbIdKey,0);
+        bundle.putString(fNameKey, "");
+        bundle.putString(lNameKey, "");
+        bundle.putString(dateOfBirthKey, "");
+        bundle.putString(genderKey, "");
+        bundle.putString(fullAddressKey, "");
+        bundle.putString(pincodeKey, "");
+        bundle.putString(cityKey, "");
+        bundle.putString(stateKey, "");
+        bundle.putString(mobileNo1Key, "");
+        bundle.putString(mobileNo2Key, "");
+        bundle.putString(emailIdKey,"");
 
     }
 

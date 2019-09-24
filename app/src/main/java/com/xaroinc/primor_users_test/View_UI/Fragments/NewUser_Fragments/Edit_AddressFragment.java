@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +27,7 @@ import java.util.Objects;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddressFragment extends Fragment {
+public class Edit_AddressFragment extends Fragment {
 
     EditText et_fullAddress,et_pincode,et_city;
     Spinner spinner;
@@ -64,17 +63,17 @@ public class AddressFragment extends Fragment {
 
     ArrayAdapter<String> dataAdapter;
 
-    public AddressFragment() {
+    public Edit_AddressFragment() {
         // Required empty public constructor
     }
 
     @SuppressLint("ValidFragment")
-    public AddressFragment(ArrayList<PersonEntity> personEntityArrayList) {
+    public Edit_AddressFragment(ArrayList<PersonEntity> personEntityArrayList) {
         this.personEntityArrayList = personEntityArrayList;
     }
 
     @SuppressLint("ValidFragment")
-    public AddressFragment(String fName, String lName, String dateOfBirth, String gender) {
+    public Edit_AddressFragment(String fName, String lName, String dateOfBirth, String gender) {
         this.fName = fName;
         this.lName = lName;
         this.dateOfBirth = dateOfBirth;
@@ -103,9 +102,6 @@ public class AddressFragment extends Fragment {
         saveBtn = view.findViewById(R.id.save_btn_address_fragment);
 
         et_fullAddress.setFocusable(true);
-
-        et_fullAddress.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        et_city.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 
         List<String> list = new ArrayList<String>();
 
@@ -194,7 +190,7 @@ public class AddressFragment extends Fragment {
                         et_city.setError(getResources().getString(R.string.address_length_error_msg));
                     }else {
                         //viewModel.update(setValuesToEntity());
-                      //  Toast.makeText(getActivity(), data + "Address Data Saved Successfully", Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText(getActivity(), data + "Address Data Saved Successfully", Toast.LENGTH_SHORT).show();
 
                         // saveData_in_ArryList_PaseToNextFragment();
 
@@ -202,7 +198,7 @@ public class AddressFragment extends Fragment {
                         Toast.makeText(getActivity(), "fragment called", Toast.LENGTH_SHORT).show();
                         */
 
-                      saveDataIntoSp(fullAddress,pincode,city,state);
+                        saveDataIntoSp(fullAddress,pincode,city,state);
                     }
 
                 }
@@ -237,14 +233,12 @@ public class AddressFragment extends Fragment {
 
             Log.d("db", "Address fragment: bundle data: \n" + bundleData);
 
-           // Toast.makeText(getActivity(), bundleData + " \n Bundle Data in Address Fragment", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getActivity(), bundleData + " \n Bundle Data in Address Fragment", Toast.LENGTH_SHORT).show();
 
-/*
 
             if (!firstName_bundle.equals(null)){
                 Toast.makeText(getActivity(), "first Name: " +firstName_bundle, Toast.LENGTH_SHORT).show();
             }
-*/
 
 
             if (address_bundle.length() != 0 && pincode_bundle.length() != 0 && city_bundle.length() !=0){
@@ -312,9 +306,10 @@ public class AddressFragment extends Fragment {
         Log.d("db","City: " + city_sp);
         Log.d("db","State: " + state_sp);
         String sp_data = fName_sp + "\n" + lName_sp + "\n" + dateOfBirth_sp + "\n" +
-                        gender_sp + "\n" +fullAddress_sp + "\n" + pincode_sp + "\n" + city_sp + "\n" + state_sp + "\n" ;
+                gender_sp + "\n" +fullAddress_sp + "\n" + pincode_sp + "\n" + city_sp + "\n" + state_sp + "\n" ;
         Log.d("db","SP Data: Address: \n"+ sp_data);
         Toast.makeText(getActivity(), sp_data + "Data Saved Successfully\n Go to Communication", Toast.LENGTH_SHORT).show();
+
 
         clearDataFields();
 
@@ -335,13 +330,13 @@ public class AddressFragment extends Fragment {
         //personEntity.setFirstName(firstName);
         // personEntity.setLastName(lastName);
         // personEntity.setGender(gender);
-         personEntity.setAddress(fullAddress);
-         personEntity.setPincode(pincode);
-         personEntity.setCity(city);
-         personEntity.setState(state);
-         personEntityArrayList.add(personEntity);
+        personEntity.setAddress(fullAddress);
+        personEntity.setPincode(pincode);
+        personEntity.setCity(city);
+        personEntity.setState(state);
+        personEntityArrayList.add(personEntity);
 
-         new CommunicationFragment(personEntityArrayList);
+        new CommunicationFragment(personEntityArrayList);
     }
 
 
@@ -349,7 +344,7 @@ public class AddressFragment extends Fragment {
     {
         PersonEntity personEntity = new PersonEntity();
         personEntity.setId(1);
-       // personEntity.setFirstName(firstName);
+        // personEntity.setFirstName(firstName);
         //personEntity.setLastName(lastName);
         //personEntity.setDateOfBirth(dateOfBirth);
         //personEntity.setGender(gender);
@@ -357,15 +352,15 @@ public class AddressFragment extends Fragment {
         personEntity.setPincode(pincode);
         personEntity.setCity(city);
         personEntity.setState(state);
-       // personEntity.setMobileNo1(Integer.parseInt(mobileNo1));
-       // personEntity.setMobileNo2(Integer.parseInt(mobileNo2));
-       // personEntity.setEmailId(emailId);
+        // personEntity.setMobileNo1(Integer.parseInt(mobileNo1));
+        // personEntity.setMobileNo2(Integer.parseInt(mobileNo2));
+        // personEntity.setEmailId(emailId);
         return personEntity;
     }
 
     protected void displayReceivedData(String message)
     {
-       // txtData.setText("Data received: "+message);
+        // txtData.setText("Data received: "+message);
 
         Toast.makeText(getActivity(), "Data Received: " + message, Toast.LENGTH_SHORT).show();
     }

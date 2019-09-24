@@ -10,4 +10,5 @@
 
     <dimen name="dimens_radioBtn_size">18sp</dimen>
     <dimen name="text_size">20sp</dimen>
+    <dimen name="text_size_tablet">30sp</dimen>
 </resources>

@@ -110,4 +110,43 @@ public class PersonRepository
             return null;
         }
     }
+
+    public void deleteItemById(long idItem){
+       new DeleteByIdAsyncTask(mPersonDao).execute(idItem);
+    }
+
+    private static class DeleteByIdAsyncTask extends AsyncTask<Long, Void, Void> {
+
+       private PersonDao mAsyncTaskDao;
+
+       DeleteByIdAsyncTask(PersonDao mAsyncTaskDao) {
+            this.mAsyncTaskDao = mAsyncTaskDao;
+        }
+
+
+        @Override
+        protected Void doInBackground(Long... longs) {
+           mAsyncTaskDao.deleteByItemId(longs[0]);
+            return null;
+        }
+    }
+
+    public void updateByItemId(PersonEntity personEntity){
+       new UpdateByItemIdAsyncTask(mPersonDao).execute(personEntity);
+    }
+
+    private class UpdateByItemIdAsyncTask extends AsyncTask<PersonEntity, Void, Void> {
+
+       private PersonDao mUpdateAsyncTaskDao;
+
+        public UpdateByItemIdAsyncTask(PersonDao mUpdateAsyncTaskDao) {
+            this.mUpdateAsyncTaskDao = mUpdateAsyncTaskDao;
+        }
+
+        @Override
+        protected Void doInBackground(PersonEntity... personEntities) {
+            mUpdateAsyncTaskDao.updateByItemId(personEntities[0]);
+            return null;
+        }
+    }
 }

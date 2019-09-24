@@ -31,6 +31,10 @@ public interface PersonDao
     @Update
     public void updatePersons(PersonEntity users);
 
+
+    @Update
+    public void updateByItemId(PersonEntity users);
+
     @Query("SELECT * from PersonEntity where id = :id")
     LiveData<List<PersonEntity>> readSinglePerson(int id);
 
@@ -39,5 +43,9 @@ public interface PersonDao
 
     @Delete
     void removeFromTable(PersonEntity personEntity);
+
+    //Delete one item by id
+    @Query("DELETE FROM PersonEntity WHERE id = :itemId")
+    void deleteByItemId(long itemId);
 
 }

@@ -22,6 +22,7 @@
 
     <string name="alert_title">Exit</string>
     <string name="alert_mesage">Do you want to Exit from App?</string>
+    <string name="alert_exit_mesage">Do you want to Exit from App?\n Go to Menu click on Exit</string>
     <string name="delete_alert_title">Delete</string>
     <string name="delete_alert_mesage">Do you want to Delete this Person?</string>
     <string name="alert_yes_btn">OK</string>
@@ -61,6 +62,7 @@
 
     <string name="address_length_error_msg">Mobile Number atelast 3 Leters</string>
     <string name="pincode_length_error_msg">Mobile Number must be 6 digits</string>
+    <string name="next">Next</string>
 
     <string-array name="array_states">
         <item>Andhra Pradesh</item>
@@ -98,5 +100,12 @@
         <item>Lakshadweep</item>
         <item>Puducherry</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="update_btn">Update</string>
+    <string name="profile_list">Profiles List</string>
+    <string name="user_profile">User Profile</string>
+    <string name="sync_success_refresh_msg">sync success</string>
 
 </resources>

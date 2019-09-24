@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,7 +35,8 @@ import java.util.Objects;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PersonalFragment extends Fragment {
+public class Edit_PersonalFragment extends Fragment {
+
 
     EditText et_FirstName, et_LastName, et_DateOfBirth;
     String fullName, fName, lName, dateOfBirth, gender = "male";
@@ -77,12 +77,12 @@ public class PersonalFragment extends Fragment {
 
     long id_bunndle;
 
-    public PersonalFragment() {
+    public Edit_PersonalFragment() {
         // Required empty public constructor
     }
 
     @SuppressLint("ValidFragment")
-    public PersonalFragment(List<PersonEntity> personEntityList) {
+    public Edit_PersonalFragment(List<PersonEntity> personEntityList) {
         this.personEntityList = personEntityList;
     }
 
@@ -95,7 +95,7 @@ public class PersonalFragment extends Fragment {
 
         sp = Objects.requireNonNull(getActivity()).getSharedPreferences(spFile, Context.MODE_PRIVATE);
 
-       // loadingData();
+        // loadingData();
 
         initViews(view);
         return view;
@@ -121,8 +121,6 @@ public class PersonalFragment extends Fragment {
         save_btn = view.findViewById(R.id.save_btn_personal_fragment);
 
         et_FirstName.setFocusable(true);
-        et_FirstName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        et_LastName.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
 
         loadBundleData();
 
@@ -138,11 +136,11 @@ public class PersonalFragment extends Fragment {
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                    if (checkedId == R.id.rb_male) {
-                        gender = "male";
-                    } else if (checkedId == R.id.rb_female) {
-                        gender = "female";
-                    }
+                if (checkedId == R.id.rb_male) {
+                    gender = "male";
+                } else if (checkedId == R.id.rb_female) {
+                    gender = "female";
+                }
             }
         });
 
@@ -184,7 +182,7 @@ public class PersonalFragment extends Fragment {
 
             Log.d("db", "personal fragment: bundle data: \n" + bundleData);
 
-           // Toast.makeText(getActivity(), bundleData + " \n Bundle Data in Personal Fragment", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getActivity(), bundleData + " \n Bundle Data in Personal Fragment", Toast.LENGTH_SHORT).show();
 
 
             /*if (!firstName_bundle.equals(null)){
@@ -199,7 +197,12 @@ public class PersonalFragment extends Fragment {
                 et_DateOfBirth.setText(dateOfBirth_bundle);
                 setGenderValueToRadioButton(gender_bundle);
 
-            }
+            }/*else {
+                et_FirstName.setText(null);
+                et_LastName.setText(null);
+                et_DateOfBirth.setText(null);
+            }*/
+
 
         }else {
             et_FirstName.setText(null);
@@ -247,14 +250,13 @@ public class PersonalFragment extends Fragment {
             et_LastName.setError(getResources().getString(R.string.lastName_length_error_msg));
         } else {
             //viewModel.insert(setValuesToEntity()); //Todo: data saving
+            Toast.makeText(getActivity(), data + "Data Saved Successfully\n Go to Address", Toast.LENGTH_SHORT).show();
             //callNextFragment();
             // saveInListPaseToNextFragment();
+            // new AddressFragment(fName,lName,dateOfBirth,gender);
 
             saveDataIntoSp(fName, lName, dateOfBirth1, gender);
-            Toast.makeText(getActivity(), data + "Data Saved Successfully\n Go to Address", Toast.LENGTH_SHORT).show();
-
             Log.d("db", "save Into Database: fName:  " + fName + "\n lName: " + lName + "\n dateOfBirth1: " + dateOfBirth1 + "\n gender: " + gender);
-
         }
     }
 
